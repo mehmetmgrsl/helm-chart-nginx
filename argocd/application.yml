@@ -1,17 +1,27 @@
-project: default
-source:
-  repoURL: 'https://github.com/mehmetmgrsl/helm-chart-nginx.git'
-  path: .
-  targetRevision: HEAD
-  helm:
-    valueFiles:
-      - values.yaml
-destination:
-  server: 'https://kubernetes.default.svc'
-  namespace: default
-syncPolicy:
-  automated:
-    prune: true
-    selfHeal: true
-  syncOptions:
-    - CreateNamespace=true
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+  name: nginx-helm
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: default
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: .
+    repoURL: https://github.com/mehmetmgrsl/helm-chart-nginx.git
+    targetRevision: HEAD
+    helm:
+      valueFiles:
+        - values.yaml
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true      
