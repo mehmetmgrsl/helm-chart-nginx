@@ -13,7 +13,7 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: .
+    path: argocd
     repoURL: https://github.com/mehmetmgrsl/helm-chart-nginx.git
     targetRevision: HEAD
     helm:
